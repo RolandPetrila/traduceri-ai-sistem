@@ -1,0 +1,38 @@
+a) a = i + √2·j , b = -i + √2·j;
+b) a = i , b = i + √5·j.
+
+13. Arătați că unghiul dintre vectorii u și v este ascuțit, unde:
+a) u = 5i + 4j , v = 2i – 2j;
+b) u = (2a + 5)i + (3a + 1)j , v = 3i – 2j.
+
+14. Arătați că unghiul dintre vectorii u și v este obtuz, unde:
+a) u = 2i + 3j , v = 4i – 4j;
+b) u = 4i + 2j , v = –3i + 2j.
+
+Aprofundare
+
+15. Se consideră vectorii: a = 3i – 2j și b = –2i + 7j. Determinați vectorul c astfel încât a · c = 1 și b · c = –22.
+
+16. Unghiul dintre vectorii a și b, de normă egală cu 1, este de măsură 150°. Să se calculeze:
+a) a · b;
+b) (3a – b)(3a + b);
+c) (a – 2b)^2;
+d) ||2a + b||.
+
+17. Se dau vectorii a = 2i – j și b = –i + 2j. Calculați:
+a) a · b;
+b) a^–2;
+c) (2a + b)^2;
+d) ||3a – b||.
+
+18. Aflați cosinusurile unghiurilor pe care vectorul a = 3i – √3·j le face cu axele de coordonate.
+
+19. Aflați coordonatele unui vector a coliniar cu b, unde b = 6i + 8j știind că ||a|| = 30 și vectorii a și j formează un unghi obtuz.
+
+20. Calculați u^–2 – v^–2 știind că:
+a) u – v = 3i + 4j , u + v = 2i + j;
+b) u – v = 3i – 2j , u + v = 2i + 2j.
+
+21. Fie vectorii u și v. Calculați cos(u, v) știind că:
+a) u · v = 5, ||u|| = 2, ||v|| = 4;
+b) u · v = –3, ||u|| = 2, ||v|| = 3.

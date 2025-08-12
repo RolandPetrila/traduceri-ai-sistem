@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traduceri AI - Sistem Automat</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .upload-zone {
+            border: 3px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .upload-zone:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .upload-zone.has-file {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+        
+        #fileInput { display: none; }
+        
+        .file-info {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .file-info.show { display: block; }
+        
+        .language-selector {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        select {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .pricing-section, .preview-section {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .pricing-section.show, .preview-section.show { display: block; }
+        
+        .price-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .price-amount {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .demo-notice {
+            background: #fef5e7;
+            border: 2px solid #f39c12;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Traduceri AI Profesionale</h1>
+            <p>Sistem automat de traducere cu inteligenta artificiala</p>
+        </div>
+        
+        <div class="main-card">
+            <div class="demo-notice">
+                ⚠️ <strong>MOD DEMO</strong> - Pentru traduceri reale, configureaza API keys in .env
+            </div>
+            
+            <div class="upload-zone" id="uploadZone">
+                <h3>📁 Incarca documentul tau</h3>
+                <p>Click sau trage fisierul aici</p>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                    PDF, DOCX, XLSX, TXT • Max 50MB
+                </p>
+                <input type="file" id="fileInput" accept=".pdf,.docx,.xlsx,.txt">
+            </div>
+            
+            <div class="file-info" id="fileInfo">
+                <h4>📄 <span id="fileName"></span></h4>
+                <p>Dimensiune: <span id="fileSize"></span></p>
+            </div>
+            
+            <div class="language-selector">
+                <select id="sourceLang">
+                    <option value="auto">Detectare automata</option>
+                    <option value="en">Engleza</option>
+                    <option value="ro">Romana</option>
+                    <option value="it">Italiana</option>
+                    <option value="fr">Franceza</option>
+                    <option value="de">Germana</option>
+                    <option value="es">Spaniola</option>
+                </select>
+                
+                <div style="font-size: 1.5rem;">→</div>
+                
+                <select id="targetLang">
+                    <option value="ro">Romana</option>
+                    <option value="en">Engleza</option>
+                    <option value="it">Italiana</option>
+                    <option value="fr">Franceza</option>
+                    <option value="de">Germana</option>
+                    <option value="es">Spaniola</option>
+                </select>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn btn-primary" id="calculateBtn" style="display:none;">
+                    💰 Calculeaza Cost
+                </button>
+            </div>
+            
+            <div class="pricing-section" id="pricingSection">
+                <div class="price-card">
+                    <h3>Cost Estimat</h3>
+                    <div class="price-amount">
+                        <span id="totalPrice">0</span> RON
+                    </div>
+                    <p>📝 <span id="wordCount">0</span> cuvinte</p>
+                    <p>📄 <span id="pageCount">0</span> pagini</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-secondary" id="previewBtn">
+                        👁️ Vezi Previzualizare
+                    </button>
+                    <button class="btn btn-primary" id="processBtn">
+                        ✅ Proceseaza Traducerea
+                    </button>
+                </div>
+            </div>
+            
+            <div class="preview-section" id="previewSection">
+                <h3>Previzualizare Traducere</h3>
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                    <h4>Original:</h4>
+                    <p id="originalText" style="color: #666; margin: 10px 0;"></p>
+                    <h4>Tradus:</h4>
+                    <p id="translatedText" style="margin: 10px 0;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+        let uploadedFile = null;
+        let fileData = null;
+        
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        
+        uploadZone.addEventListener('click', () => fileInput.click());
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.style.borderColor = '#667eea';
+        });
+        
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.style.borderColor = '#cbd5e0';
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length > 0) handleFile(files[0]);
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+        
+        function handleFile(file) {
+            uploadedFile = file;
+            uploadZone.classList.add('has-file');
+            
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = 
+                (file.size / 1024).toFixed(1) + ' KB';
+            
+            document.getElementById('fileInfo').classList.add('show');
+            document.getElementById('calculateBtn').style.display = 'inline-block';
+        }
+        
+        document.getElementById('calculateBtn').addEventListener('click', async () => {
+            if (!uploadedFile) return;
+            
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+            
+            try {
+                const response = await fetch(`${API_URL}/calculate-cost`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                fileData = await response.json();
+                
+                document.getElementById('wordCount').textContent = fileData.word_count;
+                document.getElementById('pageCount').textContent = fileData.page_count;
+                document.getElementById('totalPrice').textContent = fileData.total_price;
+                
+                document.getElementById('pricingSection').classList.add('show');
+            } catch (error) {
+                alert('Eroare la calcularea costului');
+            }
+        });
+        
+        document.getElementById('previewBtn').addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+            
+            try {
+                const response = await fetch(`${API_URL}/generate-preview`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('originalText').textContent = data.original_text;
+                document.getElementById('translatedText').textContent = data.translated_text;
+                document.getElementById('previewSection').classList.add('show');
+            } catch (error) {
+                alert('Eroare la generarea previzualizarii');
+            }
+        });
+        
+        document.getElementById('processBtn').addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+            formData.append('file_id', fileData?.file_id || 'demo');
+            
+            try {
+                const response = await fetch(`${API_URL}/process-translation`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                alert('✅ ' + data.message);
+            } catch (error) {
+                alert('Eroare la procesarea traducerii');
+            }
+        });
+    </script>
+</body>
+</html>
