@@ -1,6 +1,9 @@
-.env
-__pycache__/
-*.pyc
-uploads/*
-processed/*  
-logs/*
+# Secrets and sensitive files 
+.env 
+*.bat 
+config.config_settings.sh 
+github_sync_fix.bat 
+start_system.bat 
+# API Keys 
+*api_key* 
+*token* 
