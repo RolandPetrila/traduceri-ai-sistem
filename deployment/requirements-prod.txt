@@ -1,4 +1,4 @@
-# Traduceri AI System - Dependencies
+# Production requirements for Traduceri AI System
 Flask==2.3.3
 Flask-CORS==4.0.0
 python-dotenv==1.0.0
@@ -8,3 +8,7 @@ python-magic==0.4.27
 PyPDF2==3.0.1
 python-docx==0.8.11
 openpyxl==3.1.2
+gunicorn==21.2.0
+redis==4.6.0
+celery==5.3.1
+psycopg2-binary==2.9.7
